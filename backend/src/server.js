@@ -6,6 +6,7 @@ const dotenv = require('dotenv');
 const { connectDB } = require('./config/db');
 const { notFound, errorHandler } = require('./middlewares/errorMiddleware');
 const userRoutes = require('./routes/userRoutes');
+const guildRoutes = require('./routes/guildRoutes');
 
 dotenv.config();
 
@@ -27,6 +28,7 @@ app.use(cors());
 
 // Routes
 app.use('/api/users', userRoutes);
+app.use('/api/guilds', guildRoutes);
 
 // WebSocket pour les mises à jour en temps réel
 io.on('connection', (socket) => {
@@ -35,6 +37,35 @@ io.on('connection', (socket) => {
     socket.on('click', async (data) => {
         // À implémenter: Logique pour gérer les clics via WebSocket
         console.log(`Click reçu de l'utilisateur: ${data.userId}`);
+    });
+
+    socket.on('guild-join', (data) => {
+        // Permettre aux utilisateurs de rejoindre une "room" pour leur guilde
+        if (data.guildId) {
+            socket.join(`guild-${data.guildId}`);
+            console.log(`Utilisateur ${data.userId} a rejoint la room de la guilde ${data.guildId}`);
+        }
+    });
+
+    socket.on('guild-leave', (data) => {
+        // Permettre aux utilisateurs de quitter une "room" de leur guilde
+        if (data.guildId) {
+            socket.leave(`guild-${data.guildId}`);
+            console.log(`Utilisateur ${data.userId} a quitté la room de la guilde ${data.guildId}`);
+        }
+    });
+
+    socket.on('guild-contribute', (data) => {
+        // Émettre un événement à tous les membres de la guilde quand quelqu'un contribue
+        if (data.guildId) {
+            io.to(`guild-${data.guildId}`).emit('guild-update', {
+                contributorId: data.userId,
+                contributorName: data.username,
+                clicksContributed: data.clicks,
+                guildClicks: data.guildClicks,
+                guildLevel: data.guildLevel,
+            });
+        }
     });
 
     socket.on('disconnect', () => {

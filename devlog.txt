@@ -1,0 +1,114 @@
+[x] Définir les fonctionnalités principales :
+  [x] Gestion des utilisateurs (inscription, connexion, profils)
+  [x] Système de clic avec calcul des bonus et améliorations
+  [x] Création et gestion de guildes (regroupement d'utilisateurs)
+  [x] Mise en place de quêtes variées (quotidiennes, de guilde, principales, duo)
+  [x] Système d'améliorations (bonus temporaires et permanents, ex. +10 clics en 10 secondes)
+  [x] Intégration d'un thème « travail moderne » (Scrum, user stories, bonus « jours d'avance »)
+
+[x] Déterminer les contraintes techniques :
+  [x] Support pour environ 100 comptes avec 50 utilisateurs connectés simultanément
+  [x] Réactivité et fluidité du gameplay
+
+Conception de la Base de Données
+[x] Identification des entités principales :
+  [x] Utilisateurs
+  [x] Guildes
+  [x] Quêtes
+  [x] Améliorations
+  [x] Historique/statistiques de clics
+
+[x] Définition des relations entre entités :
+  [x] Utilisateur ↔ Guilde (possibilité de many-to-one ou many-to-many selon la logique métier)
+  [x] Quêtes associées aux utilisateurs et/ou aux guildes
+  [x] Améliorations liées aux utilisateurs
+
+[x] Choix du SGBD :
+  [x] CockroachDB (compatible PostgreSQL, SQL distribué)
+
+[x] Création des schémas et index pour optimiser les requêtes
+
+Architecture Applicative
+[x] Backend (NodeJS) :
+  [x] Initialiser le projet avec un framework comme Express
+  [x] Définir une API REST pour la gestion des utilisateurs
+  [ ] Définir une API REST pour la gestion des guildes, quêtes et améliorations
+  [x] Prévoir la gestion de la sécurité (authentification JWT, gestion des sessions)
+
+[ ] Frontend (React) :
+  [ ] Créer l'environnement de développement (ex. Create React App ou Next.js)
+  [ ] Concevoir les composants principaux (dashboard, écran de jeu, gestion des guildes et quêtes)
+  [ ] Mettre en place l'intégration avec l'API backend via des appels asynchrones (Axios, Fetch)
+
+[x] Communication en temps réel :
+  [x] Envisager l'utilisation de WebSocket pour actualiser le nombre de clics et l'état des quêtes en direct
+
+Développement Backend (NodeJS)
+[x] Initialisation et configuration du projet
+[x] Implémentation des endpoints API :
+  [x] Inscription, connexion et gestion des sessions
+  [ ] CRUD pour guildes, quêtes et améliorations
+[x] Validation des données et gestion des erreurs
+[ ] Tests unitaires et d'intégration
+[ ] Optimisation des performances et sécurité
+
+Développement Frontend (React)
+[ ] Configuration du projet React
+[ ] Création des interfaces utilisateur :
+  [ ] Composants de base pour le clicker, affichage des bonus et améliorations
+  [ ] Interfaces dédiées à la gestion des guildes et des quêtes
+[ ] Intégration avec l'API backend :
+  [ ] Gestion des états (Redux ou Context API)
+  [ ] Appels asynchrones et gestion des réponses API
+[ ] Implémentation du système de clic et des animations associées
+
+Intégration des Fonctionnalités Spécifiques
+[x] Système de Clic et Bonus :
+  [x] Mise en place du compteur de clics (côté backend)
+  [x] Définition et application des bonus (modèles créés)
+  [ ] Gestion des améliorations influant sur les clics (implémentation à compléter)
+
+[x] Quêtes :
+  [x] Modèles pour différents types de quêtes
+  [ ] Suivi de l'avancement et attribution des récompenses (contrôleurs à ajouter)
+
+[x] Guildes :
+  [x] Modèle pour création et gestion
+  [ ] Communication interne (forum ou chat simplifié)
+
+[x] Bonus Temporaires et Personnalisables :
+  [x] Modèles pour activer des bonus temporaires
+  [ ] Gestion de la durée et de l'effet des bonus (partiellement implémenté)
+
+[x] Intégration du Thème « Travail Moderne » :
+  [x] Incorporer des éléments inspirés du Scrum et des user stories (dans les modèles)
+  [ ] Implémenter des bonus « jours d'avance » (à terminer)
+
+Tests, Débogage et Optimisation
+[ ] Tests Backend :
+  [ ] Écriture de tests unitaires pour chaque endpoint
+  [ ] Tests d'intégration pour assurer la cohérence globale
+
+[ ] Tests Frontend :
+  [ ] Tests fonctionnels des composants React
+  [ ] Vérification de l'interface utilisateur sur différents navigateurs
+
+[ ] Optimisation des performances :
+  [ ] Profilage et correction des éventuels goulots d'étranglement
+  [ ] Tests de charge pour valider la gestion des connexions simultanées
+
+[ ] Correction des bugs identifiés et mise en place de correctifs
+
+Déploiement et Documentation
+[x] Préparation au Déploiement :
+  [ ] Choix de la plateforme (Heroku, AWS, etc.)
+  [ ] Mise en place d'un environnement de staging
+
+[x] Documentation Technique :
+  [x] Rédaction d'un guide d'installation et de déploiement (README.md)
+  [x] Documentation des API et des schémas de la base de données
+
+[x] Suivi du Projet :
+  [x] Utilisation d'un workflow Git Flow pour gérer les fonctionnalités et versions
+  [x] Planification du développement via le fichier devlog.txt
+

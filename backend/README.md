@@ -10,12 +10,13 @@ Ce dossier contient la partie serveur du projet Wasac-Clicker, une application d
 - **Socket.io** : Communication en temps réel pour les mises à jour de clics et de guildes
 - **JWT** : Authentification des utilisateurs
 - **Jest** : Tests unitaires et d'intégration
+- **Swagger** : Documentation interactive de l'API
 
 ## Structure du projet
 
 ```
 src/
-  ├── config/          # Configuration (base de données)
+  ├── config/          # Configuration (base de données, swagger)
   ├── controllers/     # Logique métier
   ├── middlewares/     # Middlewares Express
   ├── models/          # Modèles Sequelize
@@ -27,7 +28,7 @@ src/
 
 ## API REST
 
-Le backend expose les API REST suivantes :
+Le backend expose les API REST suivantes, documentées avec Swagger à l'adresse `/api-docs`.
 
 ### Utilisateurs
 
@@ -75,6 +76,11 @@ FRONTEND_URL=http://localhost:3000
 3. Lancer le serveur de développement :
 ```
 npm run dev
+```
+
+4. Accéder à la documentation de l'API :
+```
+http://localhost:5000/api-docs
 ```
 
 ## Tests

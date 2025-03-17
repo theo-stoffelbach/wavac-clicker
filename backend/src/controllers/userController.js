@@ -1,4 +1,4 @@
-const User = require('../models/userModel');
+const { User, UserUpgrade, UserQuest } = require('../models');
 const jwt = require('jsonwebtoken');
 
 // Générer un JWT token
@@ -12,34 +12,33 @@ const generateToken = (id) => {
 // @route   POST /api/users
 // @access  Public
 const registerUser = async (req, res) => {
-    const { username, email, password } = req.body;
+    try {
+        const { username, email, password } = req.body;
 
-    // Vérifier si l'utilisateur existe déjà
-    const userExists = await User.findOne({ email });
+        // Vérifier si l'utilisateur existe déjà
+        const userExists = await User.findOne({ where: { email } });
 
-    if (userExists) {
-        res.status(400);
-        throw new Error('Utilisateur existe déjà');
-    }
+        if (userExists) {
+            res.status(400);
+            throw new Error('Utilisateur existe déjà');
+        }
 
-    // Créer un nouvel utilisateur
-    const user = await User.create({
-        username,
-        email,
-        password,
-    });
+        // Créer un nouvel utilisateur
+        const user = await User.create({
+            username,
+            email,
+            password,
+        });
 
-    if (user) {
         res.status(201).json({
-            _id: user._id,
+            id: user.id,
             username: user.username,
             email: user.email,
             clicks: user.clicks,
-            token: generateToken(user._id),
+            token: generateToken(user.id),
         });
-    } else {
-        res.status(400);
-        throw new Error("Impossible de créer l'utilisateur");
+    } catch (error) {
+        res.status(400).json({ message: error.message });
     }
 };
 
@@ -47,22 +46,26 @@ const registerUser = async (req, res) => {
 // @route   POST /api/users/login
 // @access  Public
 const loginUser = async (req, res) => {
-    const { email, password } = req.body;
+    try {
+        const { email, password } = req.body;
 
-    // Vérifier si l'utilisateur existe
-    const user = await User.findOne({ email });
+        // Vérifier si l'utilisateur existe
+        const user = await User.findOne({ where: { email } });
 
-    if (user && (await user.matchPassword(password))) {
-        res.json({
-            _id: user._id,
-            username: user.username,
-            email: user.email,
-            clicks: user.clicks,
-            token: generateToken(user._id),
-        });
-    } else {
-        res.status(401);
-        throw new Error('Email ou mot de passe invalide');
+        if (user && (await user.matchPassword(password))) {
+            res.json({
+                id: user.id,
+                username: user.username,
+                email: user.email,
+                clicks: user.clicks,
+                token: generateToken(user.id),
+            });
+        } else {
+            res.status(401);
+            throw new Error('Email ou mot de passe invalide');
+        }
+    } catch (error) {
+        res.status(401).json({ message: error.message });
     }
 };
 
@@ -70,21 +73,30 @@ const loginUser = async (req, res) => {
 // @route   GET /api/users/profile
 // @access  Private
 const getUserProfile = async (req, res) => {
-    const user = await User.findById(req.user._id);
-
-    if (user) {
-        res.json({
-            _id: user._id,
-            username: user.username,
-            email: user.email,
-            clicks: user.clicks,
-            guild: user.guild,
-            completedQuests: user.completedQuests,
-            activeUpgrades: user.activeUpgrades,
+    try {
+        const user = await User.findByPk(req.user.id, {
+            include: [
+                { model: UserUpgrade, where: { isActive: true }, required: false },
+                { model: UserQuest, required: false }
+            ]
         });
-    } else {
-        res.status(404);
-        throw new Error('Utilisateur non trouvé');
+
+        if (user) {
+            res.json({
+                id: user.id,
+                username: user.username,
+                email: user.email,
+                clicks: user.clicks,
+                guild_id: user.guild_id,
+                userUpgrades: user.UserUpgrades,
+                userQuests: user.UserQuests,
+            });
+        } else {
+            res.status(404);
+            throw new Error('Utilisateur non trouvé');
+        }
+    } catch (error) {
+        res.status(404).json({ message: error.message });
     }
 };
 
@@ -92,23 +104,27 @@ const getUserProfile = async (req, res) => {
 // @route   PUT /api/users/click
 // @access  Private
 const updateUserClicks = async (req, res) => {
-    const { clicksToAdd } = req.body;
+    try {
+        const { clicksToAdd } = req.body;
 
-    // Ajouter la validation pour empêcher la triche
-    const user = await User.findById(req.user._id);
+        // Ajouter la validation pour empêcher la triche
+        const user = await User.findByPk(req.user.id);
 
-    if (user) {
-        user.clicks += clicksToAdd || 1;
-        user.lastClickTime = Date.now();
+        if (user) {
+            user.clicks += clicksToAdd || 1;
+            user.lastClickTime = new Date();
 
-        await user.save();
+            await user.save();
 
-        res.json({
-            clicks: user.clicks,
-        });
-    } else {
-        res.status(404);
-        throw new Error('Utilisateur non trouvé');
+            res.json({
+                clicks: user.clicks,
+            });
+        } else {
+            res.status(404);
+            throw new Error('Utilisateur non trouvé');
+        }
+    } catch (error) {
+        res.status(404).json({ message: error.message });
     }
 };
 

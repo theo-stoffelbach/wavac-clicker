@@ -1,67 +1,57 @@
-const mongoose = require('mongoose');
+const { DataTypes } = require('sequelize');
 const bcrypt = require('bcrypt');
+const { sequelize } = require('../config/db');
 
-const userSchema = mongoose.Schema(
-    {
-        username: {
-            type: String,
-            required: true,
-            unique: true,
-        },
-        email: {
-            type: String,
-            required: true,
-            unique: true,
-        },
-        password: {
-            type: String,
-            required: true,
-        },
-        clicks: {
-            type: Number,
-            default: 0,
-        },
-        guild: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Guild',
-        },
-        completedQuests: [
-            {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'Quest',
-            },
-        ],
-        activeUpgrades: [
-            {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'Upgrade',
-            },
-        ],
-        lastClickTime: {
-            type: Date,
-            default: Date.now,
+const User = sequelize.define('User', {
+    username: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+    },
+    email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+        validate: {
+            isEmail: true,
         },
     },
-    {
-        timestamps: true,
-    }
-);
+    password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    clicks: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
+    },
+    guild_id: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+    },
+    lastClickTime: {
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
+    },
+}, {
+    timestamps: true,
+});
 
 // Méthode pour comparer les mots de passe lors de la connexion
-userSchema.methods.matchPassword = async function (enteredPassword) {
+User.prototype.matchPassword = async function (enteredPassword) {
     return await bcrypt.compare(enteredPassword, this.password);
 };
 
-// Middleware pour hacher le mot de passe avant de l'enregistrer
-userSchema.pre('save', async function (next) {
-    if (!this.isModified('password')) {
-        next();
-    }
-
+// Hook pour hacher le mot de passe avant de l'enregistrer
+User.beforeCreate(async (user) => {
     const salt = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password, salt);
+    user.password = await bcrypt.hash(user.password, salt);
 });
 
-const User = mongoose.model('User', userSchema);
+User.beforeUpdate(async (user) => {
+    if (user.changed('password')) {
+        const salt = await bcrypt.genSalt(10);
+        user.password = await bcrypt.hash(user.password, salt);
+    }
+});
 
 module.exports = User; 

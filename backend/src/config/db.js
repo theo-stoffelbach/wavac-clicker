@@ -1,17 +1,30 @@
-const mongoose = require('mongoose');
+const { Sequelize } = require('sequelize');
 require('dotenv').config();
+
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
+    dialect: 'postgres',
+    dialectOptions: {
+        ssl: {
+            require: true,
+            rejectUnauthorized: false
+        }
+    },
+    logging: false
+});
 
 const connectDB = async () => {
     try {
-        const conn = await mongoose.connect(process.env.MONGO_URI, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        });
-        console.log(`MongoDB connecté: ${conn.connection.host}`);
+        await sequelize.authenticate();
+        console.log('CockroachDB connecté avec succès');
+
+        // Synchroniser les modèles avec la base de données
+        // En production, il est préférable d'utiliser des migrations
+        await sequelize.sync({ alter: true });
+        console.log('Modèles synchronisés');
     } catch (error) {
-        console.error(`Erreur: ${error.message}`);
+        console.error(`Erreur de connexion: ${error.message}`);
         process.exit(1);
     }
 };
 
-module.exports = connectDB; 
+module.exports = { connectDB, sequelize }; 

@@ -6,7 +6,7 @@ Application de clicker inspirée du monde du travail moderne, permettant aux uti
 
 Le projet est divisé en deux parties principales :
 
-- **backend** : API RESTful développée avec Node.js, Express et MongoDB
+- **backend** : API RESTful développée avec Node.js, Express et CockroachDB
 - **frontend** : Application cliente développée avec React (à venir)
 
 ## Configuration du Backend
@@ -14,7 +14,7 @@ Le projet est divisé en deux parties principales :
 ### Prérequis
 
 - Node.js (v14 ou supérieur)
-- MongoDB (local ou distant)
+- CockroachDB (local ou distant)
 
 ### Installation
 
@@ -32,7 +32,7 @@ npm install
 
 3. Configurer les variables d'environnement :
    - Créer un fichier `.env` basé sur le modèle fourni
-   - Configurer la chaîne de connexion MongoDB et les autres variables
+   - Configurer la chaîne de connexion CockroachDB et les autres variables
 
 4. Démarrer le serveur en mode développement :
 ```
@@ -43,7 +43,7 @@ npm run dev
 
 - `src/config` : Configuration de la base de données
 - `src/controllers` : Logique métier des routes
-- `src/models` : Modèles de données Mongoose
+- `src/models` : Modèles de données Sequelize
 - `src/routes` : Définition des routes de l'API
 - `src/middlewares` : Middlewares pour authentification et gestion d'erreurs
 - `src/utils` : Utilitaires divers
@@ -65,6 +65,17 @@ Le projet utilise le workflow Git Flow avec les branches suivantes :
 - `feature/guild-system` : Système de guildes
 - `feature/quest-system` : Système de quêtes
 - `feature/upgrade-system` : Système d'améliorations
+
+## Base de Données
+
+Le projet utilise CockroachDB, une base de données SQL distribuée compatible avec PostgreSQL. Les principales entités sont :
+
+- **Users** : Informations sur les utilisateurs et leurs statistiques de clics
+- **Guilds** : Groupes d'utilisateurs
+- **Quests** : Défis à accomplir par les utilisateurs
+- **Upgrades** : Améliorations que les utilisateurs peuvent acheter
+- **UserQuests** : Relation entre utilisateurs et quêtes
+- **UserUpgrades** : Relation entre utilisateurs et améliorations
 
 ## API
 

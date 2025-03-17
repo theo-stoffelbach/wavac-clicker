@@ -3,13 +3,13 @@ const cors = require('cors');
 const { createServer } = require('http');
 const { Server } = require('socket.io');
 const dotenv = require('dotenv');
-const connectDB = require('./config/db');
+const { connectDB } = require('./config/db');
 const { notFound, errorHandler } = require('./middlewares/errorMiddleware');
 const userRoutes = require('./routes/userRoutes');
 
 dotenv.config();
 
-// Connexion à MongoDB
+// Connexion à CockroachDB
 connectDB();
 
 const app = express();

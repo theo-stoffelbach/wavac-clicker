@@ -25,6 +25,8 @@ const Guild = sequelize.define('Guild', {
     },
 }, {
     timestamps: true,
+    tableName: 'guilds',
+    freezeTableName: true
 });
 
 module.exports = Guild; 

@@ -24,6 +24,8 @@ const UserQuest = sequelize.define('UserQuest', {
     },
 }, {
     timestamps: true,
+    tableName: 'user_quests',
+    freezeTableName: true
 });
 
 module.exports = UserQuest; 

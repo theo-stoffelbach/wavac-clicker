@@ -1,0 +1,286 @@
+==========================================
+API WASAC-CLICKER - EXEMPLES ET DOCUMENTATION
+==========================================
+
+BASE URL: http://localhost:5000/api
+
+==========================================
+AUTHENTIFICATION ET UTILISATEURS
+==========================================
+
+1. INSCRIPTION UTILISATEUR
+URL: POST /users
+Body:
+{
+  "username": "joueur1",
+  "email": "joueur1@example.com",
+  "password": "motdepasse123"
+}
+Réponse:
+{
+  "id": "123e4567-e89b-12d3-a456-426614174000",
+  "username": "joueur1",
+  "email": "joueur1@example.com",
+  "clicks": 0,
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
+
+2. CONNEXION UTILISATEUR
+URL: POST /users/login
+Body:
+{
+  "email": "joueur1@example.com",
+  "password": "motdepasse123"
+}
+Réponse:
+{
+  "id": "123e4567-e89b-12d3-a456-426614174000",
+  "username": "joueur1",
+  "email": "joueur1@example.com",
+  "clicks": 100,
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
+
+3. PROFIL UTILISATEUR
+URL: GET /users/profile
+Headers: 
+{
+  "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
+Réponse:
+{
+  "id": "123e4567-e89b-12d3-a456-426614174000",
+  "username": "joueur1",
+  "email": "joueur1@example.com",
+  "clicks": 100,
+  "guild_id": "123e4567-e89b-12d3-a456-426614174999",
+  "lastClickTime": "2023-03-17T15:30:45.123Z"
+}
+
+4. CLIQUER (AJOUTER DES CLICS)
+URL: PUT /users/click
+Headers:
+{
+  "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
+Body (optionnel):
+{
+  "clicksToAdd": 5
+}
+Réponse:
+{
+  "clicks": 105,
+  "message": "Clics ajoutés avec succès"
+}
+
+==========================================
+GUILDES
+==========================================
+
+1. LISTE DES GUILDES
+URL: GET /guilds
+Réponse:
+[
+  {
+    "id": "123e4567-e89b-12d3-a456-426614174999",
+    "name": "Les Cliqueurs Fous",
+    "description": "Une guilde pour les cliqueurs passionnés",
+    "level": 2,
+    "totalClicks": 2000,
+    "owner_id": "123e4567-e89b-12d3-a456-426614174000",
+    "createdAt": "2023-03-17T14:30:45.123Z",
+    "updatedAt": "2023-03-17T15:30:45.123Z"
+  },
+  {
+    "id": "223e4567-e89b-12d3-a456-426614174999",
+    "name": "Cliqueurs Débutants",
+    "description": "Guilde pour les nouveaux joueurs",
+    "level": 1,
+    "totalClicks": 200,
+    "owner_id": "223e4567-e89b-12d3-a456-426614174000",
+    "createdAt": "2023-03-17T14:35:45.123Z",
+    "updatedAt": "2023-03-17T15:35:45.123Z"
+  }
+]
+
+2. DÉTAILS D'UNE GUILDE
+URL: GET /guilds/:id
+Exemple: GET /guilds/123e4567-e89b-12d3-a456-426614174999
+Réponse:
+{
+  "id": "123e4567-e89b-12d3-a456-426614174999",
+  "name": "Les Cliqueurs Fous",
+  "description": "Une guilde pour les cliqueurs passionnés",
+  "level": 2,
+  "totalClicks": 2000,
+  "owner_id": "123e4567-e89b-12d3-a456-426614174000",
+  "createdAt": "2023-03-17T14:30:45.123Z",
+  "updatedAt": "2023-03-17T15:30:45.123Z",
+  "members": [
+    {
+      "id": "123e4567-e89b-12d3-a456-426614174000",
+      "username": "joueur1",
+      "clicks": 1000
+    },
+    {
+      "id": "323e4567-e89b-12d3-a456-426614174000",
+      "username": "joueur2",
+      "clicks": 500
+    }
+  ]
+}
+
+3. CRÉER UNE GUILDE
+URL: POST /guilds
+Headers:
+{
+  "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
+Body:
+{
+  "name": "Nouvelle Guilde",
+  "description": "Description de ma nouvelle guilde"
+}
+Réponse:
+{
+  "id": "323e4567-e89b-12d3-a456-426614174999",
+  "name": "Nouvelle Guilde",
+  "description": "Description de ma nouvelle guilde",
+  "level": 1,
+  "totalClicks": 0,
+  "owner_id": "123e4567-e89b-12d3-a456-426614174000",
+  "createdAt": "2023-03-17T16:30:45.123Z",
+  "updatedAt": "2023-03-17T16:30:45.123Z"
+}
+
+4. MODIFIER UNE GUILDE
+URL: PUT /guilds/:id
+Exemple: PUT /guilds/323e4567-e89b-12d3-a456-426614174999
+Headers:
+{
+  "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
+Body:
+{
+  "name": "Nouveau Nom de Guilde",
+  "description": "Description mise à jour"
+}
+Réponse:
+{
+  "id": "323e4567-e89b-12d3-a456-426614174999",
+  "name": "Nouveau Nom de Guilde",
+  "description": "Description mise à jour",
+  "level": 1,
+  "totalClicks": 0,
+  "owner_id": "123e4567-e89b-12d3-a456-426614174000",
+  "createdAt": "2023-03-17T16:30:45.123Z",
+  "updatedAt": "2023-03-17T16:45:45.123Z"
+}
+
+5. SUPPRIMER UNE GUILDE
+URL: DELETE /guilds/:id
+Exemple: DELETE /guilds/323e4567-e89b-12d3-a456-426614174999
+Headers:
+{
+  "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
+Réponse:
+{
+  "message": "Guilde supprimée avec succès"
+}
+
+6. REJOINDRE UNE GUILDE
+URL: PUT /guilds/:id/join
+Exemple: PUT /guilds/123e4567-e89b-12d3-a456-426614174999/join
+Headers:
+{
+  "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
+Réponse:
+{
+  "message": "Vous avez rejoint la guilde avec succès"
+}
+
+7. QUITTER UNE GUILDE
+URL: PUT /guilds/:id/leave
+Exemple: PUT /guilds/123e4567-e89b-12d3-a456-426614174999/leave
+Headers:
+{
+  "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
+Réponse:
+{
+  "message": "Vous avez quitté la guilde avec succès"
+}
+
+8. TRANSFÉRER LA PROPRIÉTÉ D'UNE GUILDE
+URL: PUT /guilds/:id/transfer-ownership
+Exemple: PUT /guilds/123e4567-e89b-12d3-a456-426614174999/transfer-ownership
+Headers:
+{
+  "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
+Body:
+{
+  "newOwnerId": "323e4567-e89b-12d3-a456-426614174000"
+}
+Réponse:
+{
+  "message": "Propriété de la guilde transférée avec succès"
+}
+
+9. CONTRIBUER DES CLICS À UNE GUILDE
+URL: PUT /guilds/:id/contribute
+Exemple: PUT /guilds/123e4567-e89b-12d3-a456-426614174999/contribute
+Headers:
+{
+  "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
+Body:
+{
+  "clicks": 50
+}
+Réponse:
+{
+  "message": "Contribution de 50 clics effectuée avec succès",
+  "guildTotalClicks": 2050,
+  "userRemainingClicks": 55
+}
+
+==========================================
+WEBSOCKET EVENTS
+==========================================
+
+URL de connexion: ws://localhost:5000
+
+1. MISE À JOUR DES CLICS UTILISATEUR
+Événement: 'click_update'
+Données:
+{
+  "userId": "123e4567-e89b-12d3-a456-426614174000",
+  "clicks": 105
+}
+
+2. MISE À JOUR DES CLICS D'UNE GUILDE
+Événement: 'guild_update'
+Données:
+{
+  "guildId": "123e4567-e89b-12d3-a456-426614174999",
+  "totalClicks": 2050
+}
+
+3. CHANGEMENT DE NIVEAU D'UNE GUILDE
+Événement: 'guild_level_up'
+Données:
+{
+  "guildId": "123e4567-e89b-12d3-a456-426614174999",
+  "newLevel": 3
+}
+
+==========================================
+DÉTAILS DE CONNEXION
+==========================================
+
+Base URL de l'API: http://localhost:5000/api
+Documentation Swagger: http://localhost:5000/api-docs
+WebSocket URL: ws://localhost:5000 

@@ -32,6 +32,8 @@ const Quest = sequelize.define('Quest', {
     },
 }, {
     timestamps: true,
+    tableName: 'quests',
+    freezeTableName: true
 });
 
 module.exports = Quest; 

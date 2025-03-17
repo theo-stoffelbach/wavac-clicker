@@ -34,6 +34,8 @@ const User = sequelize.define('User', {
     },
 }, {
     timestamps: true,
+    tableName: 'users',
+    freezeTableName: true
 });
 
 // Méthode pour comparer les mots de passe lors de la connexion

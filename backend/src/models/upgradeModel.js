@@ -28,6 +28,8 @@ const Upgrade = sequelize.define('Upgrade', {
     },
 }, {
     timestamps: true,
+    tableName: 'upgrades',
+    freezeTableName: true
 });
 
 module.exports = Upgrade; 

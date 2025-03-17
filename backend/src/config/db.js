@@ -9,7 +9,12 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
             rejectUnauthorized: false
         }
     },
-    logging: false
+    logging: false,
+    define: {
+        timestamps: true,
+        underscored: true,
+        freezeTableName: true
+    }
 });
 
 const connectDB = async () => {
@@ -17,13 +22,13 @@ const connectDB = async () => {
         await sequelize.authenticate();
         console.log('CockroachDB connecté avec succès');
 
-        // Synchroniser les modèles avec la base de données
-        // En production, il est préférable d'utiliser des migrations
-        await sequelize.sync({ alter: true });
-        console.log('Modèles synchronisés');
+        // Désactiver la synchronisation automatique pour CockroachDB en production
+        // Les tables doivent être créées manuellement via migrations ou le script seedDatabase.js
+        console.log('Synchronisation automatique désactivée - utilisation des tables existantes');
     } catch (error) {
         console.error(`Erreur de connexion: ${error.message}`);
-        process.exit(1);
+        // Ne pas quitter pour permettre à l'API de fonctionner même en cas d'erreur
+        // process.exit(1);
     }
 };
 

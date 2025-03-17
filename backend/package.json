@@ -6,8 +6,12 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
-    "test": "jest",
-    "test:watch": "jest --watch"
+    "test": "jest --verbose",
+    "test:watch": "jest --watch",
+    "db:seed": "node src/scripts/seedDatabase.js",
+    "db:create-tables": "node src/scripts/createTables.js",
+    "db:drop-all-tables": "node src/scripts/dropAllTables.js",
+    "db:reset-all": "npm run db:drop-all-tables && npm run db:create-tables && npm run db:seed"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +19,7 @@
   "type": "commonjs",
   "dependencies": {
     "bcrypt": "^5.1.1",
+    "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",

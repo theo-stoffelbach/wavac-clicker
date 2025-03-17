@@ -32,7 +32,8 @@ Architecture Applicative
 [x] Backend (NodeJS) :
   [x] Initialiser le projet avec un framework comme Express
   [x] Définir une API REST pour la gestion des utilisateurs
-  [ ] Définir une API REST pour la gestion des guildes, quêtes et améliorations
+  [x] Définir une API REST pour la gestion des guildes
+  [ ] Définir une API REST pour la gestion des quêtes et améliorations
   [x] Prévoir la gestion de la sécurité (authentification JWT, gestion des sessions)
 
 [ ] Frontend (React) :
@@ -47,9 +48,11 @@ Développement Backend (NodeJS)
 [x] Initialisation et configuration du projet
 [x] Implémentation des endpoints API :
   [x] Inscription, connexion et gestion des sessions
-  [ ] CRUD pour guildes, quêtes et améliorations
+  [x] CRUD pour guildes
+  [ ] CRUD pour quêtes et améliorations
 [x] Validation des données et gestion des erreurs
-[ ] Tests unitaires et d'intégration
+[x] Tests unitaires pour les guildes
+[ ] Tests unitaires pour les autres fonctionnalités
 [ ] Optimisation des performances et sécurité
 
 Développement Frontend (React)
@@ -74,7 +77,10 @@ Intégration des Fonctionnalités Spécifiques
 
 [x] Guildes :
   [x] Modèle pour création et gestion
-  [ ] Communication interne (forum ou chat simplifié)
+  [x] Système de contribution de clics à la guilde
+  [x] Système de transfert de propriété
+  [x] Système pour rejoindre/quitter une guilde
+  [x] Communication en temps réel via WebSockets
 
 [x] Bonus Temporaires et Personnalisables :
   [x] Modèles pour activer des bonus temporaires
@@ -85,8 +91,10 @@ Intégration des Fonctionnalités Spécifiques
   [ ] Implémenter des bonus « jours d'avance » (à terminer)
 
 Tests, Débogage et Optimisation
-[ ] Tests Backend :
-  [ ] Écriture de tests unitaires pour chaque endpoint
+[x] Tests Backend :
+  [x] Configuration de l'environnement de test avec Jest
+  [x] Écriture de tests unitaires pour les guildes
+  [ ] Tests unitaires pour les autres fonctionnalités
   [ ] Tests d'intégration pour assurer la cohérence globale
 
 [ ] Tests Frontend :

@@ -115,6 +115,7 @@ Déploiement et Documentation
 [x] Documentation Technique :
   [x] Rédaction d'un guide d'installation et de déploiement (README.md)
   [x] Documentation des API et des schémas de la base de données
+  [x] Mise en place d'une documentation interactive (Swagger)
 
 [x] Suivi du Projet :
   [x] Utilisation d'un workflow Git Flow pour gérer les fonctionnalités et versions

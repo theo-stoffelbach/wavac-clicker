@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useUser } from '../../context/UserContext';
 
 const Header = () => {
-    const { user, isAuthenticated, logout } = useUser();
+    const { user, logout, isAuthenticated } = useUser();
     const navigate = useNavigate();
 
     const handleLogout = () => {
@@ -14,32 +14,33 @@ const Header = () => {
     return (
         <header className="app-header">
             <div className="container">
-                <nav className="navbar">
-                    <Link to="/" className="app-logo">Wavac-Clicker</Link>
+                <div className="navbar">
+                    <Link to="/" className="app-logo">
+                        Wavac-Clicker
+                    </Link>
+                    <nav className="nav-links">
+                        <Link to="/" className="nav-link">Accueil</Link>
 
-                    <div className="nav-links">
                         {isAuthenticated ? (
                             <>
                                 <Link to="/dashboard" className="nav-link">Tableau de bord</Link>
-                                <button
-                                    onClick={handleLogout}
-                                    className="nav-link"
-                                    style={{ background: 'none', border: 'none', cursor: 'pointer' }}
-                                >
+                                <Link to="/clicker" className="nav-link">Jouer</Link>
+                                <button onClick={handleLogout} className="nav-link" style={{ background: 'none', border: 'none' }}>
                                     Déconnexion
                                 </button>
                                 <span className="nav-user">
-                                    {user?.username}
+                                    <i className="fas fa-user mr-1"></i>
+                                    {user.username}
                                 </span>
                             </>
                         ) : (
                             <>
                                 <Link to="/login" className="nav-link">Connexion</Link>
-                                <Link to="/register" className="nav-link btn btn-primary">S'inscrire</Link>
+                                <Link to="/register" className="nav-link">Inscription</Link>
                             </>
                         )}
-                    </div>
-                </nav>
+                    </nav>
+                </div>
             </div>
         </header>
     );

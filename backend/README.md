@@ -1,96 +1,62 @@
-# Wasac-Clicker - Backend
+# Wasac-Clicker Backend API
 
-Ce dossier contient la partie serveur du projet Wasac-Clicker, une application de clicker inspirée du monde du travail moderne.
+API backend pour l'application Wasac-Clicker utilisant CockroachDB.
 
-## Technologies
+## Installation
 
-- **Node.js** et **Express** : Framework backend
-- **CockroachDB** : Base de données SQL distribuée, compatible avec PostgreSQL
-- **Sequelize** : ORM pour interagir avec la base de données
-- **Socket.io** : Communication en temps réel pour les mises à jour de clics et de guildes
-- **JWT** : Authentification des utilisateurs
-- **Jest** : Tests unitaires et d'intégration
-- **Swagger** : Documentation interactive de l'API
+```bash
+# Installer les dépendances
+npm install
+
+# Démarrer en mode développement
+npm run dev
+
+# Démarrer en mode production
+npm start
+```
+
+## Configuration de CockroachDB
+
+1. Installer CockroachDB localement ou utiliser CockroachDB Cloud
+2. Créer une base de données `wasac_clicker`
+3. Configurer les variables d'environnement
+
+## Variables d'environnement
+
+Créez un fichier `.env` à la racine du projet avec les variables suivantes :
+
+```
+PORT=5000
+DATABASE_URL=postgresql://root@localhost:26257/wasac_clicker?sslmode=disable
+JWT_SECRET=your_jwt_secret
+```
+
+Remplacez les valeurs par celles correspondant à votre configuration CockroachDB.
+
+## Endpoints API
+
+### Utilisateurs
+
+- `GET /api/users` - Récupérer tous les utilisateurs
+- `POST /api/users` - Créer un nouvel utilisateur
+- `PATCH /api/users/:id/score` - Mettre à jour le score d'un utilisateur
 
 ## Structure du projet
 
 ```
-src/
-  ├── config/          # Configuration (base de données, swagger)
-  ├── controllers/     # Logique métier
-  ├── middlewares/     # Middlewares Express
-  ├── models/          # Modèles Sequelize
-  ├── routes/          # Routes API
-  ├── tests/           # Tests unitaires et d'intégration
-  ├── utils/           # Fonctions utilitaires
-  └── server.js        # Point d'entrée de l'application
-```
-
-## API REST
-
-Le backend expose les API REST suivantes, documentées avec Swagger à l'adresse `/api-docs`.
-
-### Utilisateurs
-
-- `POST /api/users` : Inscription
-- `POST /api/users/login` : Connexion
-- `GET /api/users/profile` : Profil de l'utilisateur (authentifié)
-- `PUT /api/users/click` : Mise à jour du compteur de clics
-
-### Guildes
-
-- `GET /api/guilds` : Liste des guildes
-- `GET /api/guilds/:id` : Détails d'une guilde
-- `POST /api/guilds` : Création d'une guilde (authentifié)
-- `PUT /api/guilds/:id` : Mise à jour d'une guilde (propriétaire uniquement)
-- `DELETE /api/guilds/:id` : Suppression d'une guilde (propriétaire uniquement)
-- `PUT /api/guilds/:id/join` : Rejoindre une guilde (authentifié)
-- `PUT /api/guilds/:id/leave` : Quitter une guilde (authentifié)
-- `PUT /api/guilds/:id/transfer-ownership` : Transférer la propriété (propriétaire uniquement)
-- `PUT /api/guilds/:id/contribute` : Contribuer des clics à la guilde (authentifié)
-
-## WebSockets
-
-Le backend utilise Socket.io pour les communications en temps réel :
-
-- Mise à jour des clics individuels
-- Notification des activités de guilde
-- Mise à jour du statut des quêtes
-
-## Installation
-
-1. Installer les dépendances :
-```
-npm install
-```
-
-2. Créer un fichier `.env` avec les variables suivantes :
-```
-NODE_ENV=development
-PORT=5000
-DATABASE_URL=postgresql://root@localhost:26257/wasac_clicker?sslmode=disable
-JWT_SECRET=your_secret_key
-FRONTEND_URL=http://localhost:3000
-```
-
-3. Lancer le serveur de développement :
-```
-npm run dev
-```
-
-4. Accéder à la documentation de l'API :
-```
-http://localhost:5000/api-docs
-```
-
-## Tests
-
-Lancer les tests unitaires et d'intégration :
-```
-npm test
-```
-
-Lancer les tests en mode watch :
-```
-npm run test:watch
+new-backend/
+├── config/           # Configuration de la base de données
+├── models/           # Modèles de données Sequelize
+├── routes/           # Routes API
+├── .env              # Variables d'environnement
+├── .gitignore        # Fichiers à ignorer par Git
+├── index.js          # Point d'entrée de l'application
+├── package.json      # Configuration du projet
+└── README.md         # Documentation
 ``` 
+
+### INFO UTILE :
+
+npm run db:create - Crée les tables
+npm run db:drop - Supprime les tables
+npm run db:reset - Réinitialise la base de données (drop + create)

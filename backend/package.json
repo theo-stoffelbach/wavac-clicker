@@ -1,39 +1,31 @@
 {
-  "name": "backend",
+  "name": "new-backend",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node src/server.js",
-    "dev": "nodemon src/server.js",
-    "test": "jest --verbose",
-    "test:watch": "jest --watch",
-    "db:seed": "node src/scripts/seedDatabase.js",
-    "db:create-tables": "node src/scripts/createTables.js",
-    "db:drop-all-tables": "node src/scripts/dropAllTables.js",
-    "db:reset-all": "npm run db:drop-all-tables && npm run db:create-tables && npm run db:seed"
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "db:create": "node scripts/db-setup.js --create",
+    "db:drop": "node scripts/db-setup.js --drop",
+    "db:reset": "node scripts/db-setup.js --reset",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "dependencies": {
     "bcrypt": "^5.1.1",
-    "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
-    "nodemon": "^3.1.9",
+    "mongoose": "^8.12.1",
     "pg": "^8.14.1",
-    "sequelize": "^6.37.6",
-    "socket.io": "^4.8.1",
-    "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^5.0.1"
+    "sequelize": "^6.37.6"
   },
   "devDependencies": {
-    "jest": "^29.5.0",
-    "sequelize-mock": "^0.10.2",
-    "supertest": "^6.3.3"
+    "nodemon": "^3.1.9"
   }
 }

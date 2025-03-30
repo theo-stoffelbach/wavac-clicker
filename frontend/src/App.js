@@ -1,52 +1,29 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { UserProvider } from './context/UserContext';
-
-// Pages
+import { Routes, Route } from 'react-router-dom';
+import Header from './components/Layout/Header';
+import Footer from './components/Layout/Footer';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
-
-// Components
-import Layout from './components/Layout/Layout';
-
-// CSS
+import ClickerGame from './pages/ClickerGame';
 import './App.css';
-
-// Route protégée qui vérifie l'authentification
-const ProtectedRoute = ({ children }) => {
-  const token = localStorage.getItem('token');
-
-  if (!token) {
-    return <Navigate to="/login" replace />;
-  }
-
-  return children;
-};
 
 function App() {
   return (
-    <UserProvider>
-      <Router>
-        <Layout>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route
-              path="/dashboard"
-              element={
-                <ProtectedRoute>
-                  <Dashboard />
-                </ProtectedRoute>
-              }
-            />
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-        </Layout>
-      </Router>
-    </UserProvider>
+    <div className="app">
+      <Header />
+      <main className="main-content">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/clicker" element={<ClickerGame />} />
+        </Routes>
+      </main>
+      <Footer />
+    </div>
   );
 }
 

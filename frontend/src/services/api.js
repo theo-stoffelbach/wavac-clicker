@@ -16,7 +16,7 @@ const api = axios.create({
 // Intercepteur pour ajouter le token d'authentification aux requêtes
 api.interceptors.request.use(
     (config) => {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('userToken');
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
         }
@@ -86,12 +86,18 @@ export const guildService = {
     delete: (id) => api.delete(`/guilds/${id}`),
     join: (id) => api.post(`/guilds/${id}/join`),
     leave: (id) => api.post(`/guilds/${id}/leave`),
+    getLeaderboard: () => api.get('/guilds/leaderboard'),
 };
 
 // Services pour les quêtes
 export const questService = {
     getAll: () => api.get('/quests'),
     getById: (id) => api.get(`/quests/${id}`),
+    getAvailable: () => api.get('/quests/available'),
+    getUserQuests: () => api.get('/quests/user'),
+    acceptQuest: (questId) => api.post(`/quests/${questId}/accept`),
+    updateProgress: (questId, progress) => api.put(`/quests/${questId}/progress`, { progress }),
+    completeQuest: (questId) => api.post(`/quests/${questId}/complete`),
 };
 
 // Services pour les améliorations
@@ -99,6 +105,33 @@ export const upgradeService = {
     getAll: () => api.get('/upgrades'),
     getById: (id) => api.get(`/upgrades/${id}`),
     purchase: (id) => api.post(`/upgrades/${id}/purchase`),
+};
+
+// Services pour le jeu Clicker
+export const clickerService = {
+    // Récupérer les données du jeu pour l'utilisateur
+    getGameData: () => {
+        console.log('Récupération des données de jeu');
+        return api.get('/clicker/data');
+    },
+
+    // Sauvegarder les données du jeu pour l'utilisateur
+    saveGameData: (gameData) => {
+        console.log('Sauvegarde des données de jeu:', gameData);
+        return api.post('/clicker/save', gameData);
+    },
+
+    // Signaler une activité suspecte (anti-triche)
+    reportSuspiciousActivity: (type, details) => {
+        console.log('Signalement d\'activité suspecte');
+        return api.post('/clicker/report', { type, details });
+    },
+
+    // Récupérer toutes les améliorations disponibles
+    getUpgrades: () => api.get('/clicker/upgrades'),
+
+    // Acheter une amélioration
+    purchaseUpgrade: (upgradeId) => api.post(`/clicker/upgrades/${upgradeId}/purchase`),
 };
 
 export default api; 

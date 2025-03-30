@@ -10,7 +10,7 @@ const Home = () => {
             <section className="hero-section">
                 <div className="container">
                     <h1>Wavac-Clicker</h1>
-                    <p className="subtitle">Cliquez. Améliorez. Collaborez.</p>
+                    <p className="subtitle">Le jeu incrémental qui simule la productivité</p>
 
                     <div className="cta-buttons">
                         {isAuthenticated ? (

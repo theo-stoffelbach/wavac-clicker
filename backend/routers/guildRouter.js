@@ -1,5 +1,5 @@
 import express from 'express';
-import { createGuild, getGuildById, getAllGuilds } from '../controller/guildController.js';
+import { createGuild, getGuildById, getAllGuilds } from '../controllers/guildController.js';
 
 const guildRouter = express.Router();
 

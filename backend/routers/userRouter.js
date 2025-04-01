@@ -1,10 +1,14 @@
-import express from 'express';
-import { getUsers, getUserById, addGuildToUser } from '../controller/userController.js';
+import express from "express";
+import { handleGetAllUsers, handleGetUserById, handleRegister, handleLogin, handleLogout, addGuildToUser } from "../controllers/userController.js";
 
 const userRouter = express.Router();
 
-userRouter.get('/', getUsers);
-userRouter.get('/:id', getUserById);
-userRouter.post('/guild/:guild_id', addGuildToUser);
+userRouter.get("/", handleGetAllUsers);
+userRouter.get("/:id", handleGetUserById);
+userRouter.post("/guild/:guild_id", addGuildToUser);
+
+userRouter.post("/", handleRegister);
+userRouter.post("/login", handleLogin);
+userRouter.post("/logout", handleLogout);
 
 export default userRouter; 

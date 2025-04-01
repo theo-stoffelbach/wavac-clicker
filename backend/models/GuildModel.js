@@ -1,4 +1,3 @@
-import e from 'express';
 import { pool } from '../config/database.js';
 
 export const makeGuild = async (name, owner_id) => {

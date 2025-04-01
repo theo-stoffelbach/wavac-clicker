@@ -2,10 +2,10 @@
   "name": "new-backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js",
+    "start": "node server.js",
+    "dev": "nodemon server.js",
     "db:create": "node scripts/db-setup.js --create",
     "db:drop": "node scripts/db-setup.js --drop",
     "db:reset": "node scripts/db-setup.js --reset",
@@ -17,6 +17,7 @@
   "type": "module",
   "dependencies": {
     "bcrypt": "^5.1.1",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",

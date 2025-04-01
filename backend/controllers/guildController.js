@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
-import { makeGuild, showGuildById, showAllGuilds } from '../models/Guild.js';
+import { makeGuild, showGuildById, showAllGuilds } from '../models/GuildModel.js';
 import jwt from 'jsonwebtoken';
-import { findById } from '../models/User.js';
+import { getUserById } from '../models/UserModels.js';
 
 dotenv.config();
 
@@ -19,9 +19,7 @@ export const createGuild = async (req, res) => {
 
 
     const guild = await makeGuild(name, owner_id);
-    const user = await findById(owner_id);
-
-
+    const user = await getUserById(owner_id);
 
     res.status(201).json(guild);
 };
@@ -32,7 +30,7 @@ export const getGuildById = async (req, res) => {
     res.status(200).json(guild);
 };
 
-export const getAllGuilds = async (req, res) => {
+export const getAllGuilds = async (_, res) => {
     const guilds = await showAllGuilds();
     res.status(200).json(guilds);
 };

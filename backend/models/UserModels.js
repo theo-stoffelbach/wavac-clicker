@@ -1,6 +1,11 @@
 import { pool } from '../config/database.js';
 
-// Créer un utilisateur
+export const findAllUsers = async () => {
+  const query = 'SELECT id, username, email, clicks, last_click_time, created_at, updated_at FROM users';
+  const result = await pool.query(query);
+  return result.rows;
+};
+
 export const createUser = async (username, email, password, clicks = 0, last_click_time = null) => {
   const query = `
     INSERT INTO users (username, email, password, clicks,last_click_time, created_at, updated_at)
@@ -12,7 +17,6 @@ export const createUser = async (username, email, password, clicks = 0, last_cli
   return result.rows[0];
 };
 
-// Trouver un utilisateur par email ou username
 export const findByEmail = async (email) => {
   console.log("email : ", email);
   try {
@@ -27,21 +31,12 @@ export const findByEmail = async (email) => {
   }
 };
 
-// Trouver un utilisateur par ID
-export const findById = async (id) => {
+export const getUserById = async (id) => {
   const query = 'SELECT id, username, email, clicks, last_click_time, created_at, updated_at FROM users WHERE id = $1';
   const result = await pool.query(query, [id]);
   return result.rows[0];
 };
 
-// Récupérer tous les utilisateurs
-export const findAll = async () => {
-  const query = 'SELECT id, username, email, clicks, last_click_time, created_at, updated_at FROM users';
-  const result = await pool.query(query);
-  return result.rows;
-};
-
-// Mettre à jour le score d'un utilisateur
 export const updateScore = async (id, score) => {
   const query = `
     UPDATE users 
@@ -53,15 +48,12 @@ export const updateScore = async (id, score) => {
   return result.rows[0];
 };
 
-// Fonction pour corriger l'utilisateur problématique
 export const fixInvalidUser = async () => {
   try {
-    // Vérifier si l'utilisateur problématique existe
     const checkQuery = "SELECT id FROM users WHERE email LIKE '$2b$10%'";
     const checkResult = await pool.query(checkQuery);
 
     if (checkResult.rows.length > 0) {
-      // Supprimer l'utilisateur problématique
       const deleteQuery = "DELETE FROM users WHERE email LIKE '$2b$10%'";
       await pool.query(deleteQuery);
       console.log("Utilisateur problématique supprimé avec succès");
